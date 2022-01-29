@@ -9,7 +9,7 @@ class App {
   private mountRoutes(): void {
     const router = express.Router();
     router.get('/', (req, res) => {
-      res.json({ message: 'Go away, world!' });
+      res.json({ message: 'SUPP!!!!' });
     });
     this.express.use('/', router);
   }
