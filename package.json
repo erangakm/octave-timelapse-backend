@@ -12,7 +12,8 @@
     "postinstall": "npm run tsc",
     "watch-node": "nodemon dist/index.js",
     "watch-ts": "tsc -w",
-    "deploy": "git add . && git commit -m Heroku && git push heroku master"
+    "deploy": "git add . && git commit -m Heroku && git push heroku master",
+    "download-images": "node dist/tasks/download-images.js"
   },
   "author": "",
   "license": "ISC",
