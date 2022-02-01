@@ -23,11 +23,11 @@ export class ImageService {
 
   public async downloadImages(): Promise<void> {
     const now = dayjs().tz("Australia/Melbourne");
-    // if (now.hour() > 18 || now.hour() < 5) {
-    //   console.log(`Time now is ${now.format()}. Skipping image download.`);
+    if (now.hour() > 18 || now.hour() < 5) {
+      console.log(`Time now is ${now.format()}. Skipping image download.`);
 
-    //   return;
-    // }
+      return;
+    }
 
     const time = this.getNearest30Min(now);
 
