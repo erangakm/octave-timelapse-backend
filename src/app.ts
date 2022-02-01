@@ -1,6 +1,4 @@
 import * as express from 'express';
-import { ImageService } from "./ImageService";
-
 class App {
   public express;
   constructor() {
@@ -9,10 +7,8 @@ class App {
   }
   private mountRoutes(): void {
     const router = express.Router();
-    const imageService = new ImageService();
-    imageService.downloadImages();
     router.get('/', (req, res) => {
-      res.json({ message: 'SUPP!!!!' });
+      res.json({ message: "Hello from Octave timelapse backend" });
     });
     this.express.use('/', router);
   }
