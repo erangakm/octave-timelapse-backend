@@ -20,23 +20,25 @@ export class ImageService {
     const now = dayjs().tz("Australia/Melbourne");
     const time = this.getNearest30Min(now);
 
-    await Promise.all(
-      Object.keys(imageUrls).map(async (camera) => {
-        const imageUrl = imageUrls[camera];
-        const response = await fetch(imageUrl);
+    for (const camera of Object.keys(imageUrls)) {
+      const imageUrl = imageUrls[camera];
+      const rawImageResponse = await fetch(imageUrl);
 
-        // Upload to raw folder.
-        await this.s3Client.uploadImage(time, camera, response.body, "raw");
+      // Upload to raw folder.
+      await this.s3Client.uploadImage(time, camera, rawImageResponse.body, "raw");
 
-        // Upload to hourly folder.
-        await this.s3Client.uploadImage(time, camera, response.body, "hourly");
+      // Upload to hourly folder.
+      const hourlyImageResponse = await fetch(imageUrl);
+      await this.s3Client.uploadImage(time, camera, hourlyImageResponse.body, "hourly");
 
-        // Upload to daily folder at 2pm.
-        if (now.hour() === 14) {
-          await this.s3Client.uploadImage(time, camera, response.body, "daily");
-        }
-      })
-    )
+      // await sleep(10_000)
+
+      // Upload to daily folder at 2pm.
+      if (now.hour() === 14) {
+        const dailyImageResponse = await fetch(imageUrl);
+        await this.s3Client.uploadImage(time, camera, dailyImageResponse.body, "daily");
+      }
+    }
   }
 
   private getNearest30Min(time: dayjs.Dayjs) {
